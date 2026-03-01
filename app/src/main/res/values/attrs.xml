@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WavyProgressIndicator">
+        <attr name="waveAmplitude" format="dimension" />
+        <attr name="waveWavelength" format="dimension" />
+        <attr name="waveSpeed" format="dimension" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="indicatorColor" format="color" />
+        <attr name="trackColor" format="color" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/experiments"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"
+            android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/debug_mode_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/debug_mode"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/ui_debug_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ui_debug"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/bomber_service_debug_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bomber_service_debug"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/drip_mode_debug_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/drip_mode_debug"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/drip_mode_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/drip_mode"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/drip_mode_description"
+            android:textSize="12sp"
+            android:textColor="?colorOnSurfaceVariant"
+            android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/disable_spam_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/disable_spam"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/import_dsl_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Импортировать .dsl файл"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/manage_services_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Менеджер сервисов"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/drip_delay_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Настройка задержки (капельный режим)"
+            android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/values_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/values"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/inspector_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/inspector"
+            android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Дополнительно"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/verbose_logging_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Подробное логирование"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/network_debug_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Отладка сети"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/service_timeout_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Увеличенный таймаут"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/random_ua_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Случайный User-Agent"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/retry_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Повтор неудачных запросов"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/ssl_skip_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Пропуск SSL (только для отладки!)"
+            android:textSize="16sp"
+            android:textColor="?colorError"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reset_settings_button"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сбросить все настройки"
+            android:textColor="?colorError"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

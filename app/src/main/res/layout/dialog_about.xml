@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <!-- Bobomb Silhouette Icon -->
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/bobomb_logo"
+        android:contentDescription="@string/app_name"
+        app:tint="?colorPrimary"/>
+
+    <!-- App Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bobomb"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="?colorPrimary"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Version -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2.01 (код версии 201)"
+        android:textSize="14sp"
+        android:textColor="?colorOnSurfaceVariant"
+        android:layout_marginTop="4dp"/>
+
+    <!-- GitHub and Telegram buttons -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <!-- GitHub Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/github_button"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GitHub"
+            app:icon="@drawable/ic_octocat_fill"
+            app:iconGravity="textStart"/>
+
+        <!-- Telegram Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/telegram_button"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Telegram"
+            android:layout_marginStart="8dp"
+            app:icon="@drawable/ic_telegram"
+            app:iconGravity="textStart"/>
+
+    </LinearLayout>
+
+    <!-- OK Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ok_button"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

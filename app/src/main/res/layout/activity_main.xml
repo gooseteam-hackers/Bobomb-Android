@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/app_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:text="@string/app_name"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/phone_code"
+        app:layout_constraintEnd_toStartOf="@+id/bomb"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Spinner
+        android:id="@+id/phone_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:padding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/start_attack"
+        app:layout_constraintEnd_toStartOf="@+id/phone_number"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_title"
+        tools:listitem="@layout/country_code_row" />
+
+    <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="phone"
+        android:background="@null"
+        android:inputType="number"
+        android:maxLength="14"
+        android:paddingStart="0dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/phone_code"
+        app:layout_constraintEnd_toStartOf="@+id/repeats_container"
+        app:layout_constraintStart_toEndOf="@+id/phone_code"
+        app:layout_constraintTop_toTopOf="@+id/phone_code"
+        tools:ignore="LabelFor,TextFields"
+        tools:text="9123456789" />
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/cycles_count"
+        app:layout_constraintBottom_toBottomOf="@+id/phone_number"
+        app:layout_constraintEnd_toEndOf="@+id/phone_number"
+        app:layout_constraintStart_toStartOf="@+id/phone_code"
+        app:layout_constraintTop_toTopOf="@+id/phone_code">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/repeats_container"
+        android:layout_width="56dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/box_background"
+        app:layout_constraintBottom_toBottomOf="@+id/phone_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/phone_number"
+        app:layout_constraintTop_toTopOf="@+id/phone_number">
+
+        <ImageView
+            android:id="@+id/repeats_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_repeat_24"
+            android:contentDescription="@string/repeats"
+            android:alpha="0.9"
+            android:padding="14dp" />
+
+        <EditText
+            android:id="@+id/repeats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:inputType="number"
+            android:padding="0dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:background="@android:color/transparent"
+            android:includeFontPadding="false"
+            android:importantForAutofill="no" />
+
+    </FrameLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/start_attack"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/start_attack"
+        android:textSize="18sp"
+        android:padding="16dp"
+        style="@style/Widget.Material3Expressive.Button"
+        app:cornerRadius="50dp"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconSize="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/repeats_container"
+        app:layout_constraintStart_toStartOf="@+id/phone_code"
+        app:layout_constraintTop_toBottomOf="@+id/phone_code" />
+
+    <ImageView
+        android:id="@+id/bomb"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:contentDescription="@null"
+        android:scaleType="fitStart"
+        app:layout_constraintBottom_toBottomOf="@+id/app_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/app_title"
+        app:layout_constraintTop_toTopOf="@+id/app_title"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/bobomb_logo" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:contentDescription="@null"
+        android:focusable="true"
+        style="@style/Widget.Material3Expressive.FloatingActionButton.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_three_dots" />
+
+    <ImageView
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription" />
+
+    <!-- Wavy Progress Indicator using Material3Expressive style -->
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/wavy_progress"
+        style="@style/Widget.Material3Expressive.LinearProgressIndicator.Wavy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="0"
+        app:wavelength="28dp"
+        app:waveAmplitude="6dp"
+        app:waveSpeed="3dp"
+        app:indicatorColor="?colorPrimary"
+        app:trackColor="?colorSurfaceVariant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Toolbar above the progress indicator with attack count, percentage, and stop button -->
+    <LinearLayout
+        android:id="@+id/attack_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/wavy_progress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/bomb_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/bobomb_logo"
+                android:contentDescription="@null"
+                app:tint="?colorPrimary"/>
+
+            <TextView
+                android:id="@+id/attack_count_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/67  0%"
+                android:textColor="?colorPrimary"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/stop_button"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stop"
+                android:textColor="?colorError"
+                android:textSize="16sp"
+                app:icon="@drawable/ic_stop"
+                app:iconTint="?colorError"
+                app:strokeColor="?colorError"
+                app:strokeWidth="2dp"
+                app:cornerRadius="20dp"
+                app:backgroundTint="@android:color/transparent"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/work_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="blur,attack_toolbar,wavy_progress,attack_count_text,bomb_icon,stop_button" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/repositoriesLoading"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:indeterminate="false"
+        android:padding="0dp"
+        android:translationX="8dp"
+        android:translationY="8dp"
+        app:indicatorColor="?colorPrimary"
+        app:indicatorSize="28dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bomb"
+        app:layout_constraintEnd_toEndOf="@+id/services_count"
+        app:trackColor="?colorPrimaryContainer"
+        app:trackThickness="14dp" />
+
+    <TextView
+        android:id="@+id/services_count"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:padding="4dp"
+        android:textColor="?android:colorBackground"
+        android:textSize="11sp"
+        android:translationX="4dp"
+        android:translationY="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bomb"
+        app:layout_constraintEnd_toEndOf="@+id/bomb"
+        tools:text="610" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name" translatable="false">Bobomb</string>
+
+    <string name="repeats">Повторы</string>
+    <string name="start_attack">Начать атаку</string>
+
+    <string name="phone_error">Неверный формат номера</string>
+
+    <string name="time_is_incorrect">Время некорректно</string>
+    <string name="scheduled_hint">Удерживайте кнопку **«Начать атаку»** для планирования</string>
+
+    <string name="donate">Пожертвовать</string>
+    <string name="proxy">Proxy</string>
+    <string name="source_code">Исходный код</string>
+    <string name="waiting">Ожидание</string>
+
+    <string name="proxy_format_error">Неверный формат proxy</string>
+    <string name="limit_reached">Лимит достигнут</string>
+
+    <string name="proxy_hint" translatable="false">ip:port login:password</string>
+
+    <string name="channel_description">Прогресс атаки</string>
+    <string name="attack">Атака</string>
+    <string name="stop">Стоп</string>
+    <string name="stop_attack">Остановить атаку</string>
+
+    <string name="toast" translatable="false">O⁠_⁠o wavecat</string>
+
+    <string name="notification_permission">Пожалуйста, разрешите уведомления в настройках приложения</string>
+
+    <string name="apply">Применить</string>
+    <string name="services_warning">Перед включением дополнительных сервисов ознакомьтесь с источником. Будьте осторожны, сервисы могут содержать вредоносные веб-сайты, которые могут нарушить работу бомбера и раскрыть конфиденциальные данные. Не отправляйте сообщения об ошибках, если включили эту опцию</string>
+    <string name="enter_source">Введите ссылки на источники</string>
+    <string name="remote_services">Удаленные сервисы</string>
+    <string name="call_centers">Колл-центры и последующий спам</string>
+    <string name="calls">Звонки</string>
+    <string name="messages">Сообщения</string>
+    <string name="services">Сервисы</string>
+
+    <string name="speed_title">Скорость атаки</string>
+    <string name="speed_description">Регулировка скорости атаки, чем выше скорость тем меньше времени потребуется для атаки</string>
+    <string name="slow">Медленно</string>
+    <string name="default_speed">По умолчанию</string>
+    <string name="fast">Быстро</string>
+
+    <string name="skip">Пропустить (%1$dсек)</string>
+
+    <string name="advertising_placeholder_text">Это заглушка для рекламного контента. Фактическая рекламная функциональность была удалена.</string>
+    <string name="advertising_placeholder_button">Посетить сайт</string>
+
+    <string name="settings">Настройки</string>
+    
+    <!-- New strings for Bobomb v2 -->
+    <string name="hacker_mode_activated">Режим хакера активирован!</string>
+    <string name="experiments">Эксперименты</string>
+    <string name="debug_mode">Режим отладки</string>
+    <string name="ui_debug">Отладка UI</string>
+    <string name="bomber_service_debug">Отладка Bomber Service</string>
+    <string name="drip_mode_debug">Отладка капельного режима</string>
+    <string name="values">Значения</string>
+    <string name="disable_spam">Отключить спам</string>
+    <string name="inspector">Инспектор</string>
+    <string name="drip_mode">Капельный режим</string>
+    <string name="drip_mode_description">Режим с длинными задержками для скрытной атаки</string>
+    <string name="schedule_or_drip">Планирование или Капельный режим</string>
+    <string name="schedule">Планирование</string>
+    <string name="app_info">О приложении</string>
+    <string name="version">Версия</string>
+    <string name="github_link">GitHub репозиторий</string>
+
+    <string-array name="hints" translatable="false">
+        <item>912 345 67 89</item>
+        <item>50 123 4567</item>
+        <item>29 123 4567</item>
+        <item>172 745317</item>
+        <item>1 202 555 0135</item>
+    </string-array>
+</resources>

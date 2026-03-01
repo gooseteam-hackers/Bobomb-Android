@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Tile" parent="android:Widget">
+        <item name="android:background">@drawable/toggle_tile</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+    </style>
+
+    <style name="ToggleTile" parent="Tile">
+        <item name="backgroundTint">@color/tile_background_color</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textOn">@null</item>
+        <item name="android:textOff">@null</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="drawableTint">@color/tile_icon_color</item>
+    </style>
+
+    <style name="PrimaryTile" parent="Tile">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textOn">@null</item>
+        <item name="android:textOff">@null</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="drawableTint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="ActionTile" parent="Widget.Material3Expressive.Button.IconButton.Filled">
+        <item name="backgroundTint">?colorPrimary</item>
+        <item name="iconTint">?colorOnSecondary</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+        <item name="android:layout_height">58dp</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <!-- Custom Button with Animated Shape -->
+    <style name="Widget.App.ConnectedButton" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">@color/connected_button_background</item>
+        <item name="android:textColor">@color/connected_button_text</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/connected_button_stroke</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+    </style>
+
+    <style name="ShapeAppearance.App.ConnectedButtons" parent="ShapeAppearance.Material3.Corner.None">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <!-- Elevated CardView Style -->
+    <style name="Widget.Material3Expressive.CardView.Elevated" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardElevation">8dp</item>
+        <item name="cardCornerRadius">16dp</item>
+    </style>
+
+    <!-- Wavy Progress Indicators -->
+    <style name="Widget.Material3Expressive.LinearProgressIndicator.Wavy" parent="Widget.Material3.LinearProgressIndicator">
+        <!-- Note: Actual wavy effect would require custom implementation -->
+    </style>
+
+    <style name="Widget.Material3Expressive.CircularProgressIndicator.Wavy" parent="Widget.Material3.CircularProgressIndicator">
+        <!-- Note: Actual wavy effect would require custom implementation -->
+    </style>
+
+    <!-- Expressive ToggleButton Style -->
+    <style name="Widget.App.ToggleButton.Expressive" parent="Widget.Material3.Button">
+        <item name="android:background">@drawable/button_animated_shape</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:minWidth">128dp</item>
+        <item name="cornerRadius">28dp</item>
+    </style>
+
+</resources>

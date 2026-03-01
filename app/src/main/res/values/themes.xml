@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Bobomb" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
+    </style>
+
+    <!-- Overlay theme for Material 3 Expressive components -->
+    <style name="ThemeOverlay.Material3Expressive" parent="Theme.Bobomb">
+        <!-- Apply Material3 Expressive theme attributes -->
+        <item name="linearProgressIndicatorStyle">@style/Widget.Material3Expressive.LinearProgressIndicator.Wavy</item>
+        <item name="circularProgressIndicatorStyle">@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy</item>
+    </style>
+
+    <!-- Overlay theme for Dialogs -->
+    <style name="ThemeOverlay.Material3Expressive.Dialog.Alert" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <!-- Add expressive dialog attributes here -->
+    </style>
+</resources>

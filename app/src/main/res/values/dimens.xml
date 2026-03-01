@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Wavy Progress Indicator Dimensions -->
+    <!-- Material Design wavy progress bar settings -->
+    <dimen name="progress_amplitude">5dp</dimen>
+    <dimen name="progress_wavelength">24dp</dimen>
+    <dimen name="progress_wave_speed">3dp</dimen>
+
+    <!-- Toolbar dimensions -->
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="toolbar_padding_horizontal">16dp</dimen>
+    <dimen name="toolbar_text_size">14sp</dimen>
+</resources>
