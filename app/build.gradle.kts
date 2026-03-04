@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "org.goosepjkt.bobomb"
+    namespace = "org.gooseprjkt.bobomb"
 
     compileSdk = 34
 
@@ -13,11 +13,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = "org.goosepjkt.bobomb"
+        applicationId = "org.gooseprjkt.bobomb"
         minSdk = 21
         targetSdk = 34
-        versionCode = 201
-        versionName = "2.01"
+        versionCode = 202
+        versionName = "2.02"
     }
 
     buildTypes {
