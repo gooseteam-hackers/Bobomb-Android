@@ -49,10 +49,10 @@
     <string name="advertising_placeholder_button">Посетить сайт</string>
 
     <string name="settings">Настройки</string>
-    
+
     <!-- New strings for Bobomb v2 -->
     <string name="hacker_mode_activated">Режим хакера активирован!</string>
-    <string name="experiments">Эксперименты</string>
+    <string name="experiments">Лаборатория экспериментов</string>
     <string name="debug_mode">Режим отладки</string>
     <string name="ui_debug">Отладка UI</string>
     <string name="bomber_service_debug">Отладка Bomber Service</string>
@@ -64,9 +64,33 @@
     <string name="drip_mode_description">Режим с длинными задержками для скрытной атаки</string>
     <string name="schedule_or_drip">Планирование или Капельный режим</string>
     <string name="schedule">Планирование</string>
+    <string name="monospace_font">Моноширинный шрифт</string>
+    <string name="app_description">Открытый SMS бомбер на Android нового поколения</string>
     <string name="app_info">О приложении</string>
     <string name="version">Версия</string>
     <string name="github_link">GitHub репозиторий</string>
+    
+    <!-- Split Button -->
+    <string name="start_attack_label">Атака</string>
+    <string name="drip_mode_attack">Капельный режим</string>
+    <string name="schedule_attack">Расписание</string>
+    
+    <!-- Services Dialog -->
+    <string name="services_advanced_title">Управление сервисами</string>
+    <string name="services_advanced_description">Эта функция предназначена для опытных специалистов в области реверс-инжиниринга, которые хотят добавить свой сервис или API в приложение. В текстовое поле вводите ссылки на эндпоинты, разделяя их с помощью символа ";". Данное поле только для быстрых тестов, для использования в долгосрочной перспективе лучше написать свой .bsl файл.</string>
+    <string name="import_endpoints">Импорт эндпоинтов</string>
+    <string name="import_bsl_file">Импорт .bsl файла</string>
+    <string name="endpoints_list">Список эндпоинтов</string>
+    
+    <!-- Proxy Dialog -->
+    <string name="proxy_advanced_title">Управление прокси</string>
+    <string name="proxy_advanced_description">Прокси предназначен для скрытия личности и обхода ограничений на отправку SMS если вы тестер или просто отправляете много атак. В текстовое поле вводите прокси в формате "ip:port login:password", разделяя их символом ";". Также можно импортировать файл с прокси, протестировать их (пинг, отсеять нерабочие, отсеять N самых быстрых).</string>
+    <string name="import_proxy_file">Импорт файла с прокси</string>
+    <string name="test_proxy">Тестировать прокси</string>
+    <string name="proxy_test_results">Результаты теста прокси</string>
+    <string name="proxy_list">Список прокси</string>
+    <string name="keep_fastest">Оставить самых быстрых</string>
+    <string name="proxy_format">ip:port login:password</string>
 
     <string-array name="hints" translatable="false">
         <item>912 345 67 89</item>
@@ -74,6 +98,8 @@
         <item>29 123 4567</item>
         <item>172 745317</item>
         <item>532 123 45 67</item>
-        <item>1 202 555 0135</item>
+        <item>98765 43210</item>
+        <item>912 345 6789</item>
+        <item>999 123 4567</item>
     </string-array>
 </resources>

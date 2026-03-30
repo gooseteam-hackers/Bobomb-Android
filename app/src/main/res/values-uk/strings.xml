@@ -32,9 +32,10 @@
     <string name="messages">Повідомлення</string>
     <string name="services">Сервіси</string>
 
-    <string name="speed"><b>Регулювання швидкості атаки</b>, чим вище швидкість, тим менше часу знадобиться для атаки</string>
+    <string name="speed_title">Швидкість атаки</string>
+    <string name="speed_description">Регулювання швидкості атаки, чим вище швидкість, тим менше часу знадобиться для атаки</string>
     <string name="slow">Повільно</string>
-    <string name="defaults">За умовчанням</string>
+    <string name="default_speed">За умовчанням</string>
     <string name="fast">Швидко</string>
 
     <string name="skip">Пропустити (%1$dс)</string>

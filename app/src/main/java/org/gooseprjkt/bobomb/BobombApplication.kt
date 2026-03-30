@@ -10,13 +10,17 @@ import com.google.android.material.color.DynamicColors
 
 class BobombApplication : Application(), Configuration.Provider {
     override fun onCreate() {
-
-        DynamicColors.applyToActivitiesIfAvailable(this)
-
-
         initContext(this)
 
-        AppCompatDelegate.setDefaultNightMode(MainRepository(applicationContext).theme)
+        // Сначала применяем динамические цвета
+        DynamicColors.applyToActivitiesIfAvailable(this)
+        
+        // Затем устанавливаем тему
+        val theme = MainRepository(applicationContext).theme
+        AppCompatDelegate.setDefaultNightMode(theme)
+        
+        Log.d("BobombApp", "Theme mode: $theme, DynamicColors available: ${DynamicColors.isDynamicColorAvailable()}")
+        
         super.onCreate()
     }
 

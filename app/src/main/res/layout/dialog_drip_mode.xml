@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Настройка капельного режима"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Капельный режим отправляет запросы с большими задержками для скрытной атаки"
+            android:textSize="13sp"
+            android:textColor="?colorOnSurfaceVariant"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Задержка -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/delayInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Задержка (минут)"
+            app:helperText="1-60 минут"
+            app:helperTextEnabled="true"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/delayInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="15"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Случайная задержка -->
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/randomDelaySwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Случайная задержка между X и Y минут"
+            android:textSize="15sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Поля для случайной задержки -->
+        <LinearLayout
+            android:id="@+id/randomDelayContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/randomMinInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="От (мин)"
+                android:layout_marginEnd="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/randomMinInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="10"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/randomMaxInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="До (мин)"
+                android:layout_marginStart="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/randomMaxInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="20"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <!-- Переключатель Постоянно -->
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/persistentSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Постоянно (не отключать после атаки)"
+            android:textSize="15sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Кнопки -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отмена"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/enableButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Включить"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

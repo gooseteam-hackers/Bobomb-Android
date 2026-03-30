@@ -224,9 +224,13 @@ class MainViewModel(
 
         val notWhitelist = true
 
-        val experimentsPrefs = context?.getSharedPreferences("bobomb_experiments", android.content.Context.MODE_PRIVATE)
-        val dripModeEnabled = experimentsPrefs?.getBoolean("drip_mode_enabled", false) ?: false
-        val dripDelayMs = experimentsPrefs?.getLong("drip_delay_ms", 1200000L) ?: 1200000L
+        // Получаем настройки drip mode из repository
+        val dripModeEnabled = repository.isDripModeEnabled
+        val dripDelayMs = repository.dripDelayMs
+        val dripRandomDelayEnabled = repository.isDripRandomDelayEnabled
+        val dripRandomDelayMinMs = repository.dripRandomDelayMinMs
+        val dripRandomDelayMaxMs = repository.dripRandomDelayMaxMs
+        val dripAutoDisable = repository.dripModeType == BuildVars.DripModeType.AUTO_DISABLE
 
         val inputData = Data.Builder()
             .putString(AttackWorker.KEY_COUNTRY_CODE, countryCode)
@@ -237,11 +241,20 @@ class MainViewModel(
             .putBoolean(AttackWorker.KEY_FAKE_SERVICES, !notWhitelist)
             .putBoolean(AttackWorker.KEY_DRIP_MODE, dripModeEnabled)
             .putLong(AttackWorker.KEY_DRIP_DELAY_MS, dripDelayMs)
+            .putBoolean(AttackWorker.KEY_DRIP_RANDOM_DELAY_ENABLED, dripRandomDelayEnabled)
+            .putLong(AttackWorker.KEY_DRIP_RANDOM_DELAY_MIN_MS, dripRandomDelayMinMs)
+            .putLong(AttackWorker.KEY_DRIP_RANDOM_DELAY_MAX_MS, dripRandomDelayMaxMs)
+            .putBoolean(AttackWorker.KEY_DRIP_AUTO_DISABLE, dripAutoDisable)
             .build()
 
         val workRequest: OneTimeWorkRequest = OneTimeWorkRequest.Builder(AttackWorker::class.java)
             .addTag(ATTACK)
             .addTag("+$countryCode$phoneNumber;$date")
+            .apply {
+                if (dripModeEnabled) {
+                    addTag("drip_mode")
+                }
+            }
             .setInitialDelay(date - current, TimeUnit.MILLISECONDS)
             .setInputData(inputData)
             .setConstraints(

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="12dp">
+
+    <!-- Флаг/иконка -->
+    <ImageView
+        android:id="@+id/phoneIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_baseline_history_24"
+        android:padding="6dp"
+        android:contentDescription="@null"
+        app:tint="?colorPrimary"/>
+
+    <!-- Номер телефона -->
+    <TextView
+        android:id="@+id/phoneNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:text="+79123456789"
+        android:textSize="16sp"
+        android:textColor="?colorOnSurface"
+        android:fontFamily="sans-serif-medium"/>
+
+    <!-- Кнопка Play (вставить) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/playButton"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:icon="@drawable/ic_play_arrow_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        android:contentDescription="Вставить номер"/>
+
+    <!-- Кнопка Copy (копировать) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/copyButton"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:icon="@drawable/ic_content_copy_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        android:contentDescription="Копировать"/>
+
+    <!-- Кнопка Delete (удалить) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/deleteButton"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:icon="@drawable/ic_baseline_delete_outline_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        android:contentDescription="Удалить номер"
+        app:iconTint="?colorError"/>
+
+</LinearLayout>

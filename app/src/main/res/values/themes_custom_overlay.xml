@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Custom Theme Overlay - applies custom primary color -->
+    <style name="ThemeOverlay.Custom" parent="">
+        <item name="colorPrimary">@color/custom_primary</item>
+        <item name="colorOnPrimary">@color/custom_on_primary</item>
+        <item name="colorPrimaryContainer">@color/custom_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/custom_on_primary_container</item>
+        <item name="colorSecondary">@color/custom_secondary</item>
+        <item name="colorOnSecondary">@color/custom_on_secondary</item>
+        <item name="colorTertiary">@color/custom_tertiary</item>
+        <item name="colorOnTertiary">@color/custom_on_tertiary</item>
+    </style>
+</resources>

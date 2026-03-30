@@ -6,7 +6,8 @@ plugins {
 android {
     namespace = "org.gooseprjkt.bobomb"
 
-    compileSdk = 34
+    compileSdk = 35
+    buildToolsVersion = "34.0.0"
 
     buildFeatures {
         viewBinding = true
@@ -14,10 +15,10 @@ android {
 
     defaultConfig {
         applicationId = "org.gooseprjkt.bobomb"
-        minSdk = 21
-        targetSdk = 34
-        versionCode = 202
-        versionName = "2.02"
+        minSdk = 23
+        targetSdk = 35
+        versionCode = 203
+        versionName = "2.03"
     }
 
     buildTypes {
@@ -76,7 +77,7 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("com.google.android.material:material:1.14.0-alpha01")
+    implementation("com.google.android.material:material:1.14.0-alpha10")
 
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.5")
     implementation("com.google.code.gson:gson:2.10.1")

@@ -34,6 +34,7 @@ class ExperimentsDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyMonospaceFontIfNeeded(view)
 
         val prefs = requireContext().getSharedPreferences("bobomb_experiments", Context.MODE_PRIVATE)
 
@@ -42,12 +43,23 @@ class ExperimentsDialog : BottomSheetDialogFragment() {
         binding.bomberServiceDebugSwitch.isChecked = prefs.getBoolean("bomber_service_debug", false)
         binding.dripModeDebugSwitch.isChecked = prefs.getBoolean("drip_mode_debug", false)
         binding.dripModeSwitch.isChecked = prefs.getBoolean("drip_mode_enabled", false)
+        binding.monospaceFontSwitch.isChecked = prefs.getBoolean("monospace_font", false)
         binding.verboseLoggingSwitch.isChecked = prefs.getBoolean("verbose_logging", false)
         binding.networkDebugSwitch.isChecked = prefs.getBoolean("network_debug", false)
         binding.serviceTimeoutSwitch.isChecked = prefs.getBoolean("service_timeout", false)
         binding.randomUaSwitch.isChecked = prefs.getBoolean("random_ua", true)
         binding.retrySwitch.isChecked = prefs.getBoolean("retry_failed", true)
         binding.sslSkipSwitch.isChecked = prefs.getBoolean("ssl_skip", false)
+        
+        // Новые эксперименты
+        binding.animationsSwitch.isChecked = prefs.getBoolean("animations_enabled", true)
+        binding.hapticFeedbackSwitch.isChecked = prefs.getBoolean("haptic_feedback_enabled", true)
+        binding.compactModeSwitch.isChecked = prefs.getBoolean("compact_mode_enabled", false)
+        binding.forceHttpSwitch.isChecked = prefs.getBoolean("force_http2_enabled", false)
+        binding.dnsSwitch.isChecked = prefs.getBoolean("private_dns_enabled", false)
+        binding.ipv6Switch.isChecked = prefs.getBoolean("ipv6_preferred", false)
+        binding.batteryOptimizationSwitch.isChecked = prefs.getBoolean("battery_optimization_ignored", true)
+        binding.parallelRequestsSwitch.isChecked = prefs.getBoolean("parallel_requests_enabled", true)
 
         binding.debugModeSwitch.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("debug_mode", isChecked).apply()
@@ -86,6 +98,15 @@ class ExperimentsDialog : BottomSheetDialogFragment() {
             }
         }
 
+        binding.monospaceFontSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("monospace_font", isChecked).apply()
+            if (isChecked) {
+                Snackbar.make(view, "Моноширинный шрифт включён", Snackbar.LENGTH_SHORT).show()
+            } else {
+                Snackbar.make(view, "Моноширинный шрифт выключен", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
         binding.disableSpamSwitch.isChecked = prefs.getBoolean("disable_spam", false)
         binding.disableSpamSwitch.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("disable_spam", isChecked).apply()
@@ -106,6 +127,59 @@ class ExperimentsDialog : BottomSheetDialogFragment() {
 
         binding.dripDelayButton.setOnClickListener {
             showDripDelayDialog(view)
+        }
+
+        // Кнопка "О приложении"
+        binding.aboutButton.setOnClickListener {
+            AboutDialog().show(parentFragmentManager, "AboutDialog")
+        }
+
+        // Кнопка кастомизации темы
+        binding.themeCustomizerButton.setOnClickListener {
+            ThemeCustomizerDialog().show(parentFragmentManager, "ThemeCustomizerDialog")
+        }
+
+        // Новые эксперименты - обработчики
+        binding.animationsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("animations_enabled", isChecked).apply()
+            Snackbar.make(view, if (isChecked) "Анимации включены" else "Анимации выключены", Snackbar.LENGTH_SHORT).show()
+        }
+
+        binding.hapticFeedbackSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("haptic_feedback_enabled", isChecked).apply()
+            Snackbar.make(view, if (isChecked) "Виброотклик включён" else "Виброотклик выключен", Snackbar.LENGTH_SHORT).show()
+        }
+
+        binding.compactModeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("compact_mode_enabled", isChecked).apply()
+            Snackbar.make(view, if (isChecked) "Компактный режим включён" else "Компактный режим выключен", Snackbar.LENGTH_SHORT).show()
+        }
+
+        // Сеть
+        binding.forceHttpSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("force_http2_enabled", isChecked).apply()
+            Snackbar.make(view, if (isChecked) "HTTP/2 включён" else "HTTP/2 выключен", Snackbar.LENGTH_SHORT).show()
+        }
+
+        binding.dnsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("private_dns_enabled", isChecked).apply()
+            Snackbar.make(view, if (isChecked) "Частный DNS включён" else "Частный DNS выключен", Snackbar.LENGTH_SHORT).show()
+        }
+
+        binding.ipv6Switch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("ipv6_preferred", isChecked).apply()
+            Snackbar.make(view, if (isChecked) "IPv6 включён" else "IPv6 выключен", Snackbar.LENGTH_SHORT).show()
+        }
+
+        // Производительность
+        binding.batteryOptimizationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("battery_optimization_ignored", isChecked).apply()
+            Snackbar.make(view, if (isChecked) "Оптимизация батареи игнорируется" else "Оптимизация батареи включена", Snackbar.LENGTH_SHORT).show()
+        }
+
+        binding.parallelRequestsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("parallel_requests_enabled", isChecked).apply()
+            Snackbar.make(view, if (isChecked) "Параллельные запросы включены" else "Параллельные запросы выключены", Snackbar.LENGTH_SHORT).show()
         }
 
         val currentDripDelay = prefs.getLong("drip_delay_ms", 1200000L)
@@ -407,5 +481,24 @@ class ExperimentsDialog : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun applyMonospaceFontIfNeeded(view: View) {
+        val prefs = requireContext().getSharedPreferences("bobomb_experiments", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("monospace_font", false)) {
+            applyMonospaceFont(view, android.graphics.Typeface.MONOSPACE)
+        }
+    }
+
+    private fun applyMonospaceFont(view: View, typeface: android.graphics.Typeface) {
+        when (view) {
+            is android.widget.TextView -> view.typeface = typeface
+            is android.widget.Button -> view.typeface = typeface
+        }
+        if (view is android.view.ViewGroup) {
+            for (i in 0 until view.childCount) {
+                applyMonospaceFont(view.getChildAt(i), typeface)
+            }
+        }
     }
 }

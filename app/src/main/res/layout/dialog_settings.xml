@@ -21,12 +21,14 @@
     <ToggleButton
         android:id="@+id/theme_tile"
         style="@style/ToggleTile"
-        android:drawableTop="@drawable/ic_baseline_contrast_24" />
+        android:drawableTop="@drawable/ic_contrast_32"
+        android:drawablePadding="8dp"/>
 
     <ToggleButton
         android:id="@+id/recent_tile"
         style="@style/PrimaryTile"
-        android:drawableTop="@drawable/ic_baseline_history_24" />
+        android:drawableTop="@drawable/ic_history_32"
+        android:drawablePadding="8dp"/>
 
     <ToggleButton
         android:id="@+id/proxy_tile"
@@ -78,23 +80,29 @@
 
     <ImageView
         android:id="@+id/services_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:contentDescription="@string/services"
         app:layout_constraintBottom_toBottomOf="@+id/services_card"
         app:layout_constraintStart_toStartOf="@+id/services_card"
         app:layout_constraintTop_toTopOf="@+id/services_card"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@+id/services_title"
+        android:layout_marginStart="16dp"
         app:srcCompat="@drawable/ic_baseline_update_24" />
 
     <TextView
         android:id="@+id/services_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="12dp"
         android:text="@string/services"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/services_icon"
         app:layout_constraintStart_toEndOf="@+id/services_icon"
-        app:layout_constraintTop_toTopOf="@+id/services_icon" />
+        app:layout_constraintTop_toTopOf="@+id/services_icon"
+        app:layout_constraintEnd_toStartOf="@+id/settings_services_count"/>
 
     <TextView
         android:id="@+id/settings_services_count"
@@ -111,23 +119,29 @@
 
     <ImageView
         android:id="@+id/proxy_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:contentDescription="@string/proxy"
         app:layout_constraintBottom_toBottomOf="@+id/proxy_card"
         app:layout_constraintStart_toStartOf="@+id/proxy_card"
         app:layout_constraintTop_toTopOf="@+id/proxy_card"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@+id/proxy_title"
+        android:layout_marginStart="16dp"
         app:srcCompat="@drawable/ic_baseline_vpn_key_24" />
 
     <TextView
         android:id="@+id/proxy_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="12dp"
         android:text="@string/proxy"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/proxy_icon"
         app:layout_constraintStart_toEndOf="@+id/proxy_icon"
-        app:layout_constraintTop_toTopOf="@+id/proxy_icon" />
+        app:layout_constraintTop_toTopOf="@+id/proxy_icon"
+        app:layout_constraintEnd_toStartOf="@+id/proxy_switch"/>
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/proxy_switch"

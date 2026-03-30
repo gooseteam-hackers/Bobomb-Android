@@ -79,6 +79,16 @@
             android:layout_marginBottom="16dp"/>
 
         <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/monospace_font_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/monospace_font"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/disable_spam_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,6 +136,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/inspector"
+            android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/about_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="О приложении"
+            app:icon="@drawable/bobomb_logo"
+            app:iconGravity="textStart"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/theme_customizer_button"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Кастомизация темы 🎨"
+            app:icon="@drawable/ic_palette_24"
+            app:iconGravity="textStart"
             android:layout_marginBottom="16dp"/>
 
         <com.google.android.material.divider.MaterialDivider
@@ -201,6 +231,117 @@
             android:textColor="?colorError"
             app:thumbIcon="@drawable/switch_thumb_icon"
             app:thumbIconSize="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Интерфейс"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/animations_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Анимации интерфейса"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:checked="true"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/haptic_feedback_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Виброотклик"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:checked="true"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/compact_mode_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Компактный режим"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сеть"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/force_http_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Принудительный HTTP/2"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/dns_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Частный DNS"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/ipv6_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Предпочитать IPv6"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Производительность"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/battery_optimization_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Игнорировать оптимизацию батареи"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:checked="true"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/parallel_requests_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Параллельные запросы"
+            android:textSize="16sp"
+            app:thumbIcon="@drawable/switch_thumb_icon"
+            app:thumbIconSize="16dp"
+            android:checked="true"
             android:layout_marginBottom="16dp"/>
 
         <com.google.android.material.button.MaterialButton

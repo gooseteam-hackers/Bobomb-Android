@@ -47,7 +47,14 @@ class BobombWorkAdapter(
 
         var isDripMode = false
         var phoneNumber = ""
+
         for (tag in workInfo.tags) {
+            // Проверяем тег drip_mode
+            if (tag == "drip_mode") {
+                isDripMode = true
+                continue
+            }
+            
             if (tag.startsWith(AttackWorker::class.java.getCanonicalName()!!) || tag == MainViewModel.ATTACK)
                 continue
 
@@ -55,7 +62,7 @@ class BobombWorkAdapter(
 
             phoneNumber = parts[0]
             holder.binding.taskTitle.text = phoneNumber
-            
+
             for (i in BuildVars.COUNTRY_CODES.indices) {
                 if (parts[0].substring(1).startsWith(BuildVars.COUNTRY_CODES[i])) {
                     holder.binding.countryFlag.setImageResource(BuildVars.COUNTRY_FLAGS[i])
@@ -66,15 +73,15 @@ class BobombWorkAdapter(
             if (parts.size == 2) {
                 val scheduledTime = parts[1].toLong()
                 val currentTime = System.currentTimeMillis()
-                
+
                 // Drip mode: scheduled more than 1 minute in the future
                 isDripMode = scheduledTime > currentTime + 60000
-                
+
                 holder.binding.taskTime.text = dateFormat.format(Date(scheduledTime))
             }
         }
-        
-        // Show drip icon only for drip mode attacks (after the phone number)
+
+        // Show drip icon for drip mode attacks
         holder.binding.dripIcon.visibility = if (isDripMode) View.VISIBLE else View.GONE
     }
 

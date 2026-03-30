@@ -103,6 +103,22 @@
 
     </FrameLayout>
 
+    <!-- Кнопка Paste слева -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/paste_button"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        android:layout_width="56dp"
+        android:layout_height="64dp"
+        app:icon="@drawable/ic_paste_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/start_attack"
+        app:layout_constraintEnd_toStartOf="@+id/start_attack"
+        app:layout_constraintTop_toTopOf="@+id/start_attack"
+        android:layout_marginEnd="4dp"/>
+
+    <!-- Кнопка атаки с dropdown меню -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/start_attack"
         android:layout_width="wrap_content"
@@ -110,18 +126,29 @@
         android:layout_marginTop="12dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/start_attack"
+        android:text="@string/start_attack_label"
         android:textSize="18sp"
-        android:padding="16dp"
         style="@style/Widget.Material3Expressive.Button"
         app:cornerRadius="50dp"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        app:iconSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/repeats_container"
         app:layout_constraintStart_toStartOf="@+id/phone_code"
         app:layout_constraintTop_toBottomOf="@+id/phone_code" />
+
+    <!-- Dropdown кнопка справа от основной -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/attack_menu_button"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        android:layout_width="56dp"
+        android:layout_height="64dp"
+        app:icon="@drawable/arrow_down_24px"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/start_attack"
+        app:layout_constraintStart_toEndOf="@+id/start_attack"
+        app:layout_constraintTop_toTopOf="@+id/start_attack"
+        android:layout_marginStart="4dp"/>
 
     <ImageView
         android:id="@+id/bomb"

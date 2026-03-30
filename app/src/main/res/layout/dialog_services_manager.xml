@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/services_advanced_title"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/services_advanced_description"
+            android:textSize="13sp"
+            android:textColor="?colorOnSurfaceVariant"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Поле для ввода эндпоинтов -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/endpointsInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/endpoints_list"
+            app:helperText="Разделяйте эндпоинты символом ';'"
+            app:helperTextEnabled="true"
+            app:counterEnabled="true"
+            app:counterMaxLength="5000"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/endpointsInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:maxLines="10"
+                android:gravity="top"
+                android:fontFamily="monospace"
+                android:textSize="12sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Кнопка импорта .bsl файла -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/importBslButton"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/import_bsl_file"
+            app:icon="@drawable/ic_paste_24"
+            app:iconGravity="textStart"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Кнопка импорта эндпоинтов -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/importEndpointsButton"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/import_endpoints"
+            app:icon="@drawable/ic_paste_24"
+            app:iconGravity="textStart"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Кнопки -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отмена"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сохранить"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,6 +1,7 @@
 package org.gooseprjkt.bobomb.ui.dialog
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -54,6 +55,15 @@ class SettingsDialog : BottomSheetDialogFragment() {
             binding.settingsServicesCount.text = servicesCount.toString()
         }
 
+        // Применяем моноширинный шрифт если включено
+        applyMonospaceFontIfNeeded(binding.root)
+        
+        // Применяем шрифт к RecyclerView (список задач)
+        model.scheduledAttacks.observe(this) { workInfoResult: List<WorkInfo> ->
+            bobombWorkAdapter.setWorkInfo(workInfoResult)
+            bobombWorkAdapter.notifyDataSetChanged()
+            applyMonospaceFontIfNeeded(binding.tasks)
+        }
 
         binding.tasks.setLayoutManager(LinearLayoutManager(requireContext()))
         binding.tasks.setAdapter(bobombWorkAdapter)
@@ -78,7 +88,7 @@ class SettingsDialog : BottomSheetDialogFragment() {
             showRecentNumbersDialog()
         }
 
-        binding.proxyCard.setOnClickListener { ProxiesDialog().show(getParentFragmentManager(), null) }
+        binding.proxyCard.setOnClickListener { ProxyManagerDialog().show(getParentFragmentManager(), null) }
 
         model.proxyEnabled.observe(getViewLifecycleOwner()) { enabled: Boolean? ->
             binding.proxySwitch.setEnabled(repository.proxy.isNotEmpty())
@@ -101,37 +111,30 @@ class SettingsDialog : BottomSheetDialogFragment() {
     }
 
     private fun showRecentNumbersDialog() {
-        val recentNumbers = repository.getRecentNumbers()
-
-        if (recentNumbers.isEmpty()) {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Недавние номера")
-                .setMessage("Список недавних номеров пуст")
-                .setPositiveButton("OK", null)
-                .show()
-            return
-        }
-
-        val items = recentNumbers.map { it }.toTypedArray()
-
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Недавние номера")
-            .setItems(items) { _, which ->
-                val selectedNumber = recentNumbers[which].substring(1)
-                (activity as? org.gooseprjkt.bobomb.ui.MainActivity)?.let { mainActivity ->
-                    mainActivity.setPhoneNumber(selectedNumber)
-                }
-            }
-            .setPositiveButton("OK", null)
-            .setNeutralButton("Очистить") { _, _ ->
-                repository.clearRecentNumbers()
-                Snackbar.make(binding.root, "Недавние номера очищены", Snackbar.LENGTH_SHORT).show()
-            }
-            .show()
+        RecentNumbersDialog().show(parentFragmentManager, "RecentNumbersDialog")
     }
 
     private fun setCurrentTheme(theme: Int) {
         AppCompatDelegate.setDefaultNightMode(theme)
         repository.theme = theme
+    }
+
+    private fun applyMonospaceFontIfNeeded(view: View) {
+        val prefs = requireContext().getSharedPreferences("bobomb_experiments", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("monospace_font", false)) {
+            applyMonospaceFont(view, android.graphics.Typeface.MONOSPACE)
+        }
+    }
+
+    private fun applyMonospaceFont(view: View, typeface: android.graphics.Typeface) {
+        when (view) {
+            is android.widget.TextView -> view.typeface = typeface
+            is android.widget.Button -> view.typeface = typeface
+        }
+        if (view is android.view.ViewGroup) {
+            for (i in 0 until view.childCount) {
+                applyMonospaceFont(view.getChildAt(i), typeface)
+            }
+        }
     }
 }

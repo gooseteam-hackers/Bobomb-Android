@@ -51,6 +51,7 @@ import org.gooseprjkt.bobomb.R
 import org.gooseprjkt.bobomb.databinding.ActivityMainBinding
 import org.gooseprjkt.bobomb.ui.adapters.CountryCodeAdapter
 import org.gooseprjkt.bobomb.ui.dialog.AdvertisingDialog
+import org.gooseprjkt.bobomb.ui.dialog.AboutDialog
 import org.gooseprjkt.bobomb.ui.dialog.ExperimentsDialog
 import org.gooseprjkt.bobomb.ui.dialog.RepositoriesDialog
 import org.gooseprjkt.bobomb.ui.dialog.SettingsDialog
@@ -73,34 +74,74 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n", "BatteryLife")
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Сначала применяем кастомную тему
+        applyCustomTheme()
+        
+        // НЕ применяем Dynamic Colors для Matrix темы
+        val themePrefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        val selectedTheme = themePrefs.getString("selected_theme", "monet") ?: "monet"
+        
+        if (selectedTheme != "matrix") {
+            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this)
+            theme.applyStyle(R.style.ThemeOverlay_Material3Expressive, true)
+        }
 
-        theme.applyStyle(R.style.ThemeOverlay_Material3Expressive, true)
+        // Применяем моноширинный шрифт если включено в настройках
+        val prefs = getSharedPreferences("bobomb_experiments", Context.MODE_PRIVATE)
+        val useMonospace = prefs.getBoolean("monospace_font", false)
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
         super.onCreate(savedInstanceState)
 
         setContentView(binding.getRoot())
 
+        // Применяем моноширинный шрифт ПОСЛЕ установки контента
+        if (useMonospace) {
+            val monospaceTypeface = android.graphics.Typeface.MONOSPACE
+            binding.root.post {
+                applyMonospaceFont(binding.root, monospaceTypeface)
+            }
+        }
+
+        // Делаем текст Bobomb жирным
+        binding.appTitle.typeface = android.graphics.Typeface.DEFAULT_BOLD
+
+        // Обновляем иконку капли при загрузке
+        updateDripIndicator()
+
         model.progress.observe(this) { progress ->
+            val isDripMode = repository.isDripModeEnabled
+            
+            // При drip mode не показываем прогресс на главном экране
+            if (!isDripMode) {
+                binding.wavyProgress.setIndeterminate(false)
 
-            binding.wavyProgress.setIndeterminate(false)
+                val percentage = if (progress.maxProgress > 0) {
+                    (progress.currentProgress * 100 / progress.maxProgress)
+                } else 0
 
-
-            val percentage = if (progress.maxProgress > 0) {
-                (progress.currentProgress * 100 / progress.maxProgress)
-            } else 0
-
-            binding.wavyProgress.setProgressCompat(percentage, true)
-            binding.attackCountText.text = "${progress.currentProgress}/${progress.maxProgress}  ${percentage}%"
+                binding.wavyProgress.setProgressCompat(percentage, true)
+                binding.attackCountText.text = "${progress.currentProgress}/${progress.maxProgress}  ${percentage}%"
+            } else {
+                // Скрываем прогресс при drip mode
+                binding.wavyProgress.setProgressCompat(0, false)
+                binding.attackCountText.text = ""
+            }
         }
 
         model.workStatus.observe(this) { workStatus: Boolean ->
             if (workStatus) {
-                binding.getRoot().requestLayout()
-                binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(BlurListener())
-
-
-                binding.attackToolbar.visibility = View.VISIBLE
+                // Проверяем, включён ли drip mode - если да, не показываем loading screen
+                val isDripMode = repository.isDripModeEnabled
+                
+                if (!isDripMode) {
+                    binding.getRoot().requestLayout()
+                    binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(BlurListener())
+                    binding.attackToolbar.visibility = View.VISIBLE
+                } else {
+                    // При drip mode скрываем attack toolbar
+                    binding.attackToolbar.visibility = View.GONE
+                }
             } else {
                 repeat(binding.getRoot().childCount) { i ->
                     val view = binding.getRoot().getChildAt(i)
@@ -117,6 +158,14 @@ class MainActivity : AppCompatActivity() {
         model.getAdvertisingAvailable().observe(this) { available: Boolean? ->
             advertisingAvailable = available!!
         }
+
+        // Наблюдаем за изменениями drip mode через периодическое обновление
+        binding.root.postDelayed(object : Runnable {
+            override fun run() {
+                updateDripIndicator()
+                binding.root.postDelayed(this, 500)
+            }
+        }, 500)
 
         val limitSchedule = OnLongClickListener { view: View? ->
             inputManager.hideSoftInputFromWindow(binding.getRoot().windowToken, 0)
@@ -275,81 +324,49 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Кнопка меню split button - показывает выбор режима
+        binding.attackMenuButton.setOnClickListener {
+            showAttackModeMenu()
+        }
 
-        binding.startAttack.setOnLongClickListener {
-            inputManager.hideSoftInputFromWindow(binding.getRoot().windowToken, 0)
+        // Удаляем long click со старой кнопки
+        binding.startAttack.setOnLongClickListener(null)
 
-            val phoneNumber = binding.phoneNumber.getText().toString()
-            val repeats = binding.repeats.getText().toString()
-
-            if (checkPhoneNumberLength(phoneNumber, currentPhoneCodeMaxPhoneLength)) {
-                // First show date/time picker for scheduling
-                val intent = Intent()
-                val pm = getSystemService(POWER_SERVICE) as PowerManager
-                if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                    intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
-                    intent.setData(Uri.parse("package:$packageName"))
-                    startActivity(intent)
+        // Кнопка Paste - вставляет номер из буфера обмена
+        binding.pasteButton.setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+            if (clipboard.hasPrimaryClip()) {
+                val clipItem = clipboard.primaryClip
+                if (clipItem != null && clipItem.itemCount > 0) {
+                    val text = clipItem.getItemAt(0).text
+                    if (text != null) {
+                        // Очищаем номер от лишних символов
+                        var phoneNumber = text.toString().replace(Regex("[^0-9+]"), "")
+                        
+                        // Убираем + если есть
+                        if (phoneNumber.startsWith("+")) {
+                            phoneNumber = phoneNumber.substring(1)
+                        }
+                        
+                        // Находим и убираем код страны
+                        val phoneCode = findPhoneCode(phoneNumber)
+                        if (phoneCode.isNotEmpty() && phoneNumber.startsWith(phoneCode)) {
+                            phoneNumber = phoneNumber.substring(phoneCode.length)
+                        }
+                        
+                        // Проверяем что номер не обрезан (должен быть 10 цифр для RU)
+                        val expectedLength = BuildVars.MAX_PHONE_LENGTH[binding.phoneCode.selectedItemPosition]
+                        if (expectedLength > 0 && phoneNumber.length != expectedLength) {
+                            Snackbar.make(binding.root, "Номер из буфера обрезан или неверен", Snackbar.LENGTH_LONG).show()
+                        }
+                        
+                        binding.phoneNumber.setText(phoneNumber)
+                        Snackbar.make(binding.root, "Номер вставлен", Snackbar.LENGTH_SHORT).show()
+                    }
                 }
-
-                val currentDate = Calendar.getInstance()
-                val date = Calendar.getInstance()
-
-                DatePickerDialog(
-                    this@MainActivity,
-                    { _: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int ->
-                        date[year, monthOfYear] = dayOfMonth
-                        TimePickerDialog(
-                            this@MainActivity,
-                            OnTimeSetListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
-                                date[Calendar.HOUR_OF_DAY] = hourOfDay
-                                date[Calendar.MINUTE] = minute
-
-                                if (date.getTimeInMillis() < currentDate.getTimeInMillis()) {
-                                    Snackbar.make(binding.root, R.string.time_is_incorrect, Snackbar.LENGTH_LONG).show()
-                                    return@OnTimeSetListener
-                                }
-
-                                // After selecting time, show attack mode selector
-                                val prefs = getSharedPreferences("bobomb_experiments", Context.MODE_PRIVATE)
-                                val dripModeEnabled = prefs.getBoolean("drip_mode_enabled", false)
-
-                                val items = if (dripModeEnabled) {
-                                    arrayOf("Обычная атака", "Капельный режим 💧", "Расписание")
-                                } else {
-                                    arrayOf("Обычная атака", "Расписание")
-                                }
-
-                                MaterialAlertDialogBuilder(this)
-                                    .setTitle("Режим атаки")
-                                    .setItems(items) { _, which ->
-                                        if (dripModeEnabled) {
-                                            when (which) {
-                                                0 -> startNormalAttack(phoneNumber, repeats)
-                                                1 -> startDripModeAttack(phoneNumber, repeats)
-                                                2 -> scheduleAttackWithDate(phoneNumber, repeats, date, currentDate)
-                                            }
-                                        } else {
-                                            when (which) {
-                                                0 -> startNormalAttack(phoneNumber, repeats)
-                                                1 -> scheduleAttackWithDate(phoneNumber, repeats, date, currentDate)
-                                            }
-                                        }
-                                    }
-                                    .show()
-                            },
-                            currentDate[Calendar.HOUR_OF_DAY],
-                            currentDate[Calendar.MINUTE],
-                            true
-                        ).show()
-                    },
-                    currentDate[Calendar.YEAR],
-                    currentDate[Calendar.MONTH],
-                    currentDate[Calendar.DATE]
-                ).show()
+            } else {
+                Snackbar.make(binding.root, "Буфер обмена пуст", Snackbar.LENGTH_SHORT).show()
             }
-
-            true // Consume the long click event
         }
 
         binding.stopButton.setOnClickListener { model.cancelCurrentWork() }
@@ -384,18 +401,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.appTitle.setOnClickListener {
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Bobomb")
-                .setMessage("Открытый SMS бомбер на Android\n\nВерсия 2.01 (код 201)\n\nGitHub: https://github.com/gooseteam-hackers/Bobomb-Android.git")
-                .setIcon(R.drawable.bobomb_logo)
-                .setPositiveButton("OK", null)
-                .setNeutralButton("GitHub") { _, _ ->
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildVars.SOURCECODE_URL)))
-                }
-                .setNegativeButton("Telegram") { _, _ ->
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/itgoose_adapter")))
-                }
-                .show()
+            AboutDialog().show(supportFragmentManager, "AboutDialog")
         }
 
         binding.phoneNumber.setOnLongClickListener {
@@ -592,15 +598,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startDripModeAttack(phoneNumber: String, repeats: String) {
+        // Сохраняем настройки drip mode ДО показа рекламы
+        val dripDelayMs = repository.dripDelayMs
+        val dripRandomDelayEnabled = repository.isDripRandomDelayEnabled
+        val dripRandomDelayMaxMs = repository.dripRandomDelayMaxMs
+        
         showAdvertisingWithCallback {
             repository.lastCountryCode = binding.phoneCode.selectedItemPosition
             repository.lastPhone = phoneNumber
             repository.addRecentNumber("$phoneNumber")
 
+            // Включаем drip mode принудительно для этой атаки
+            repository.isDripModeEnabled = true
+
+            // Drip mode атака сразу запускается с настройками из repository
             model.startDripAttack(
                 BuildVars.COUNTRY_CODES[binding.phoneCode.selectedItemPosition], phoneNumber,
                 if (repeats.isEmpty()) 1 else repeats.toInt()
             )
+
+            // Показываем Toast о начале drip mode атаки
+            val delayMin = dripDelayMs / 60000
+            val delayMax = if (dripRandomDelayEnabled) {
+                dripRandomDelayMaxMs / 60000
+            } else delayMin
+
+            val delayText = if (dripRandomDelayEnabled) {
+                "$delayMin-$delayMax мин"
+            } else {
+                "$delayMin мин"
+            }
+
+            android.widget.Toast.makeText(
+                this@MainActivity,
+                "💧 Капельный режим активирован!\nЗадержка: $delayText",
+                android.widget.Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -663,8 +696,162 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Рекурсивно применяет моноширинный шрифт ко ВСЕМ текстовым элементам
+    private fun applyMonospaceFont(view: android.view.View, typeface: android.graphics.Typeface) {
+        // Применяем ко всем возможным текстовым элементам
+        when (view) {
+            is android.widget.TextView -> {
+                view.typeface = typeface
+            }
+            is android.widget.EditText -> {
+                view.typeface = typeface
+            }
+            is android.widget.Button -> {
+                view.typeface = typeface
+            }
+            is android.widget.CheckBox -> {
+                view.typeface = typeface
+            }
+            is android.widget.RadioButton -> {
+                view.typeface = typeface
+            }
+            is android.widget.Switch -> {
+                view.typeface = typeface
+            }
+            is android.widget.ToggleButton -> {
+                view.typeface = typeface
+            }
+            is com.google.android.material.button.MaterialButton -> {
+                view.typeface = typeface
+            }
+            is com.google.android.material.textfield.TextInputEditText -> {
+                view.typeface = typeface
+            }
+            is com.google.android.material.textfield.TextInputLayout -> {
+                view.hint?.let { view.hint = it } // Обновляем hint
+            }
+            is com.google.android.material.checkbox.MaterialCheckBox -> {
+                view.typeface = typeface
+            }
+            is com.google.android.material.radiobutton.MaterialRadioButton -> {
+                view.typeface = typeface
+            }
+            is com.google.android.material.switchmaterial.SwitchMaterial -> {
+                view.typeface = typeface
+            }
+            is com.google.android.material.textview.MaterialTextView -> {
+                view.typeface = typeface
+            }
+        }
+        // Рекурсивно проходим по всем дочерним элементам
+        if (view is android.view.ViewGroup) {
+            for (i in 0 until view.childCount) {
+                applyMonospaceFont(view.getChildAt(i), typeface)
+            }
+        }
+    }
+
+    // Обновляет иконку капли рядом с номером телефона
+    private fun updateDripIndicator() {
+        // Иконка больше не используется
+    }
+
+    // Показывает PopupMenu с выбором режима атаки
+    private fun showAttackModeMenu() {
+        val phoneNumber = binding.phoneNumber.getText().toString()
+        val repeats = binding.repeats.getText().toString()
+
+        if (!checkPhoneNumberLength(phoneNumber, currentPhoneCodeMaxPhoneLength)) {
+            Snackbar.make(binding.root, R.string.phone_error, Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        // Создаём PopupMenu с иконками
+        val popup = android.widget.PopupMenu(this, binding.attackMenuButton, android.view.Gravity.END)
+        
+        // Добавляем пункты меню с иконками
+        popup.menu.add(0, 1, 0, getString(R.string.drip_mode_attack))
+            .setIcon(R.drawable.ic_drip_mode_24)
+        popup.menu.add(0, 2, 1, getString(R.string.schedule_attack))
+            .setIcon(R.drawable.ic_schedule_24)
+
+        // Включаем отображение иконок через reflection
+        try {
+            val fields = popup.javaClass.declaredFields
+            for (field in fields) {
+                if ("mPopup" == field.name) {
+                    field.isAccessible = true
+                    val menuPopupHelper = field.get(popup)
+                    val classPopupHelper = Class.forName("com.android.internal.view.menu.MenuPopupHelper")
+                    val setForceShowIcon = classPopupHelper.getDeclaredMethod(
+                        "setForceShowIcon", Boolean::class.javaPrimitiveType
+                    )
+                    setForceShowIcon.invoke(menuPopupHelper, true)
+                }
+            }
+        } catch (e: Exception) {
+            // Иконки могут не отображаться на некоторых устройствах
+        }
+
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                1 -> {
+                    // Капельный режим
+                    startDripModeAttack(phoneNumber, repeats)
+                    true
+                }
+                2 -> {
+                    // Расписание - показываем выбор даты/времени
+                    showSchedulePicker(phoneNumber, repeats)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popup.show()
+    }
+
     private val currentPhoneCodeMaxPhoneLength: Int
         get() = BuildVars.MAX_PHONE_LENGTH[binding.phoneCode.selectedItemPosition]
+
+    private fun findPhoneCode(phone: String): String {
+        val codes = BuildVars.COUNTRY_CODES.filter { it.isNotEmpty() }
+        for (code in codes) {
+            if (phone.startsWith(code)) {
+                return code
+            }
+        }
+        return ""
+    }
+
+    private fun applyCustomTheme() {
+        val themePrefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        val selectedTheme = themePrefs.getString("selected_theme", "monet") ?: "monet"
+        
+        when (selectedTheme) {
+            "matrix" -> {
+                // Matrix theme - применяем полностью, без overlay
+                setTheme(R.style.Theme_Matrix)
+            }
+            "custom" -> {
+                // Применяем кастомный цвет через overlay
+                val customColor = themePrefs.getLong("custom_color", 0xFF6750A4)
+                updateCustomColors(customColor)
+                theme.applyStyle(R.style.ThemeOverlay_Custom, true)
+            }
+            "monet" -> {
+                // Use system default (do nothing - Dynamic Colors применится позже)
+            }
+        }
+    }
+
+    private fun updateCustomColors(color: Long) {
+        // В реальной реализации нужно обновить colors_custom.xml
+        // Здесь просто сохраняем для будущего использования
+        val prefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        prefs.edit().putLong("custom_primary_color", color).apply()
+    }
 
     companion object {
         const val TASK_ID = "task_id"

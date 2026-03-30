@@ -14,8 +14,9 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:textOn">@null</item>
         <item name="android:textOff">@null</item>
-        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingTop">16dp</item>
         <item name="drawableTint">@color/tile_icon_color</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="PrimaryTile" parent="Tile">
@@ -23,8 +24,9 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:textOn">@null</item>
         <item name="android:textOff">@null</item>
-        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingTop">16dp</item>
         <item name="drawableTint">?attr/colorOnPrimary</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="ActionTile" parent="Widget.Material3Expressive.Button.IconButton.Filled">

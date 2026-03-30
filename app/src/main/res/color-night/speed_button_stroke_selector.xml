@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Activated state (selected) - no stroke -->
+    <item android:state_activated="true" android:color="@android:color/transparent" />
+    
+    <!-- Default state (not selected) - show outline -->
+    <item android:color="@color/md_theme_dark_outline" />
+</selector>

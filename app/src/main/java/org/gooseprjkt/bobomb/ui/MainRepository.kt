@@ -5,7 +5,9 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
+import org.gooseprjkt.bobomb.BuildVars
 import org.gooseprjkt.bobomb.BuildVars.AttackSpeed
+import org.gooseprjkt.bobomb.BuildVars.DripModeType
 import org.gooseprjkt.bobomb.services.core.Service
 import org.gooseprjkt.bobomb.services.repository.DslServicesRepository
 import org.gooseprjkt.bobomb.worker.AuthProxy
@@ -116,6 +118,28 @@ class MainRepository(private val context: Context?) {
         }
     }
 
+    fun removeRecentNumber(fullNumber: String) {
+        val recentNumbers = getRecentNumbers().toMutableList()
+        recentNumbers.remove(fullNumber)
+
+        // Обновляем SharedPreferences
+        recentPrefs.edit()
+            .putInt("recent_count", recentNumbers.size)
+            .apply()
+
+        // Очищаем все старые записи
+        for (i in 0 until MAX_RECENT_NUMBERS) {
+            recentPrefs.edit().remove("recent_$i").apply()
+        }
+
+        // Записываем обновлённый список
+        recentNumbers.forEachIndexed { index, number ->
+            recentPrefs.edit()
+                .putString("recent_$index", number)
+                .apply()
+        }
+    }
+
     fun clearRecentNumbers() {
         val count = recentPrefs.getInt("recent_count", 0)
         val editor = recentPrefs.edit().clear()
@@ -191,6 +215,42 @@ class MainRepository(private val context: Context?) {
             preferences.edit().putInt(ATTACK_SPEED, attackSpeed.ordinal).apply()
         }
 
+    var isDripModeEnabled: Boolean
+        get() = preferences.getBoolean(DRIP_MODE_ENABLED, BuildVars.DRIP_MODE_ENABLED_BY_DEFAULT)
+        set(enabled) {
+            preferences.edit().putBoolean(DRIP_MODE_ENABLED, enabled).apply()
+        }
+
+    var dripDelayMs: Long
+        get() = preferences.getLong(DRIP_MODE_DELAY_MS, BuildVars.DRIP_MODE_DELAY_MS)
+        set(delay) {
+            preferences.edit().putLong(DRIP_MODE_DELAY_MS, delay).apply()
+        }
+
+    var dripModeType: DripModeType
+        get() = DripModeType.entries[preferences.getInt(DRIP_MODE_TYPE, DripModeType.SINGLE_SESSION.ordinal)]
+        set(type) {
+            preferences.edit().putInt(DRIP_MODE_TYPE, type.ordinal).apply()
+        }
+
+    var isDripRandomDelayEnabled: Boolean
+        get() = preferences.getBoolean(DRIP_MODE_RANDOM_DELAY_ENABLED, BuildVars.DRIP_MODE_RANDOM_DELAY_ENABLED_BY_DEFAULT)
+        set(enabled) {
+            preferences.edit().putBoolean(DRIP_MODE_RANDOM_DELAY_ENABLED, enabled).apply()
+        }
+
+    var dripRandomDelayMinMs: Long
+        get() = preferences.getLong(DRIP_MODE_RANDOM_DELAY_MIN_MS, BuildVars.DRIP_MODE_RANDOM_DELAY_MIN_MINUTES * 60 * 1000L)
+        set(delay) {
+            preferences.edit().putLong(DRIP_MODE_RANDOM_DELAY_MIN_MS, delay).apply()
+        }
+
+    var dripRandomDelayMaxMs: Long
+        get() = preferences.getLong(DRIP_MODE_RANDOM_DELAY_MAX_MS, BuildVars.DRIP_MODE_RANDOM_DELAY_MAX_MINUTES * 60 * 1000L)
+        set(delay) {
+            preferences.edit().putLong(DRIP_MODE_RANDOM_DELAY_MAX_MS, delay).apply()
+        }
+
     companion object {
         private const val THEME = "theme"
         private const val LAST_PHONE = "last_phone"
@@ -205,6 +265,14 @@ class MainRepository(private val context: Context?) {
         private const val ALL_CALLS_ENABLED = "all_calls_enabled"
         private const val ALL_MESSAGES_ENABLED = "all_messages_enabled"
         
+        // Drip Mode keys
+        private const val DRIP_MODE_ENABLED = "drip_mode_enabled"
+        private const val DRIP_MODE_DELAY_MS = "drip_mode_delay_ms"
+        private const val DRIP_MODE_TYPE = "drip_mode_type"
+        private const val DRIP_MODE_RANDOM_DELAY_ENABLED = "drip_mode_random_delay_enabled"
+        private const val DRIP_MODE_RANDOM_DELAY_MIN_MS = "drip_mode_random_delay_min_ms"
+        private const val DRIP_MODE_RANDOM_DELAY_MAX_MS = "drip_mode_random_delay_max_ms"
+
         private const val MAX_RECENT_NUMBERS = 10
     }
 }

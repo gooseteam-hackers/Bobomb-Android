@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Activated state (selected) - white text -->
+    <item android:state_activated="true" android:color="@color/md_theme_dark_onPrimary" />
+    
+    <!-- Default state (not selected) - primary color text -->
+    <item android:color="@color/md_theme_dark_primary" />
+</selector>

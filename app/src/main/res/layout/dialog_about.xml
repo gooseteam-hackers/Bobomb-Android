@@ -1,78 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal">
+    android:padding="24dp">
 
-    <!-- Bobomb Silhouette Icon -->
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/bobomb_logo"
-        android:contentDescription="@string/app_name"
-        app:tint="?colorPrimary"/>
-
-    <!-- App Name -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bobomb"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="?colorPrimary"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Version -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2.01 (код версии 201)"
-        android:textSize="14sp"
-        android:textColor="?colorOnSurfaceVariant"
-        android:layout_marginTop="4dp"/>
-
-    <!-- GitHub and Telegram buttons -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-        <!-- GitHub Button -->
+        <!-- Логотип -->
+        <ImageView
+            android:id="@+id/app_logo"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/bobomb_logo"
+            android:contentDescription="@null"
+            app:tint="?colorPrimary"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Название приложения -->
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bobomb"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- Версия -->
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Версия 2.03 (код 203)"
+            android:textSize="14sp"
+            android:textColor="?colorOnSurfaceVariant"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Описание -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Открытый SMS бомбер на Android\nОткрытый исходный код • Безопасность • Приватность"
+            android:textSize="14sp"
+            android:textColor="?colorOnSurface"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Разделитель -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?colorOutline"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Ссылки -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ссылки"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="?colorOnSurface"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="start"/>
+
+        <!-- GitHub -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/github_button"
-            style="@style/Widget.Material3.Button.TextButton.Icon"
-            android:layout_width="wrap_content"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GitHub"
-            app:icon="@drawable/ic_octocat_fill"
-            app:iconGravity="textStart"/>
+            android:text="GitHub репозиторий"
+            app:icon="@drawable/ic_github_24"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            android:layout_marginBottom="8dp"/>
 
-        <!-- Telegram Button -->
+        <!-- Telegram -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/telegram_button"
-            style="@style/Widget.Material3.Button.TextButton.Icon"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Telegram канал"
+            app:icon="@drawable/ic_telegram_24"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Разделитель -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?colorOutline"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Лицензия -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Telegram"
-            android:layout_marginStart="8dp"
-            app:icon="@drawable/ic_telegram"
+            android:text="Лицензия"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="?colorOnSurface"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="start"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MIT License\n\nCopyright (c) 2025-2026 GooseTeam\n\nДанное программное обеспечение предоставляется «как есть», без каких-либо гарантий."
+            android:textSize="13sp"
+            android:textColor="?colorOnSurfaceVariant"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Команда -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Команда"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="?colorOnSurface"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="start"/>
+
+        <TextView
+            android:id="@+id/team_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Разработано с ❤️ командой GooseTeam"
+            android:textSize="13sp"
+            android:textColor="?colorOnSurfaceVariant"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Кнопка закрытия -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/close_button"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Закрыть"
+            android:minWidth="120dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Кнопки обновлений -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/check_app_update"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Проверить обновление приложения"
+            app:icon="@drawable/ic_baseline_update_24"
+            app:iconGravity="textStart"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/check_services_update"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Обновить сервисы"
+            app:icon="@drawable/ic_baseline_update_24"
             app:iconGravity="textStart"/>
 
     </LinearLayout>
-
-    <!-- OK Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/ok_button"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OK"
-        android:layout_marginTop="16dp"/>
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

