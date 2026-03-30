@@ -5,16 +5,14 @@ object BuildVars {
     const val VERSION_CODE = 203
     const val VERSION_NAME = "2.03"
     
-    const val TELEGRAM_URL = "https://t.me/androidsmsbobomb"
+    const val TELEGRAM_URL = "https://t.me/itgoose_adapter"
     const val SOURCECODE_URL = "https://github.com/gooseteam-hackers/Bobomb-Android.git"
-    const val DONATE_URL = "https://smsbomber.page.link/donate"
+    const val DONATE_URL = "https://example.com" // у меня нет донатов
 
     // Update URLs
     const val ANDROID_UPDATE_URL = "https://raw.githubusercontent.com/gooseteam-hackers/Bobomb/refs/heads/static/android_update.json"
     const val CLI_UPDATE_URL = "https://raw.githubusercontent.com/gooseteam-hackers/Bobomb/refs/heads/static/cli_update.json"
     const val SERVICES_UPDATE_URL = "https://raw.githubusercontent.com/gooseteam-hackers/Bobomb/refs/heads/static/services_update.json"
-
-    const val DATA_SOURCE = "https://gitlab.com/retrocat/bomber-static/-/raw/main/static75.json?ref_type=heads"
 
     val COUNTRY_CODES = arrayOf("7", "380", "375", "77", "90", "91", "98", "")
 
