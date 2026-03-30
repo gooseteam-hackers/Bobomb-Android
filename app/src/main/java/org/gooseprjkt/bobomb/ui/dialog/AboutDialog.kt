@@ -90,41 +90,82 @@ class AboutDialog : BottomSheetDialogFragment() {
     private fun checkUpdatesOnStart() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val response = java.net.URL(BuildVars.ANDROID_UPDATE_URL).openConnection()
-                    .apply {
-                        connectTimeout = 5000
-                        readTimeout = 5000
-                    }
-                    .inputStream.bufferedReader().use { it.readText() }
+                val url = java.net.URL(BuildVars.ANDROID_UPDATE_URL)
+                val connection = url.openConnection() as java.net.HttpURLConnection
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+                connection.requestMethod = "GET"
                 
+                val responseCode = connection.responseCode
+                if (responseCode != 200) {
+                    return@launch
+                }
+                
+                val response = connection.inputStream.bufferedReader().use { it.readText() }
                 val json = JSONObject(response)
+                
+                if (!json.has("updates")) {
+                    return@launch
+                }
+                
                 val updates = json.getJSONObject("updates")
-                val versionCode = updates.getInt("versionCode")
+                val versionCode = updates.optInt("versionCode", 0)
                 
                 if (versionCode > BuildVars.VERSION_CODE) {
-                    val description = updates.getJSONObject("description")
-                    val descText = description.getString("Bobomb ${versionCode}")
+                    val description = updates.optJSONObject("description")
+                    val descText = if (description != null) {
+                        val keys = description.keys()
+                        if (keys.hasNext()) description.getString(keys.next()) else "Доступно обновление"
+                    } else "Доступно обновление"
+                    
+                    val directUrl = updates.optString("directUrl", "")
+                    
                     Dispatchers.Main.run {
-                        showUpdateNotification("Приложение", descText, updates.optString("directUrl", ""))
+                        showUpdateNotification("Приложение", descText, directUrl)
                     }
                 }
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+                // Silent fail for background check
+            }
         }
     }
 
     private fun checkAppUpdate() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val response = java.net.URL(BuildVars.ANDROID_UPDATE_URL).openConnection()
-                    .apply { connectTimeout = 5000 }
-                    .inputStream.bufferedReader().use { it.readText() }
+                val url = java.net.URL(BuildVars.ANDROID_UPDATE_URL)
+                val connection = url.openConnection() as java.net.HttpURLConnection
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+                connection.requestMethod = "GET"
                 
+                val responseCode = connection.responseCode
+                if (responseCode != 200) {
+                    Dispatchers.Main.run {
+                        android.widget.Toast.makeText(requireContext(), "Ошибка сети: код $responseCode", android.widget.Toast.LENGTH_LONG).show()
+                    }
+                    return@launch
+                }
+                
+                val response = connection.inputStream.bufferedReader().use { it.readText() }
                 val json = JSONObject(response)
+                
+                if (!json.has("updates")) {
+                    Dispatchers.Main.run {
+                        android.widget.Toast.makeText(requireContext(), "Неверный формат JSON", android.widget.Toast.LENGTH_LONG).show()
+                    }
+                    return@launch
+                }
+                
                 val updates = json.getJSONObject("updates")
-                val versionCode = updates.getInt("versionCode")
-                val description = updates.getJSONObject("description")
-                val descText = description.getString("Bobomb ${versionCode}")
+                val versionCode = updates.optInt("versionCode", 0)
+                val description = updates.optJSONObject("description")
                 val directUrl = updates.optString("directUrl", "")
+                
+                val descText = if (description != null) {
+                    val keys = description.keys()
+                    if (keys.hasNext()) description.getString(keys.next()) else "Новая версия доступна"
+                } else "Новая версия доступна"
                 
                 Dispatchers.Main.run {
                     showUpdateNotification("Приложение", descText, directUrl)
@@ -140,15 +181,38 @@ class AboutDialog : BottomSheetDialogFragment() {
     private fun checkServicesUpdate() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val response = java.net.URL(BuildVars.SERVICES_UPDATE_URL).openConnection()
-                    .apply { connectTimeout = 5000 }
-                    .inputStream.bufferedReader().use { it.readText() }
+                val url = java.net.URL(BuildVars.SERVICES_UPDATE_URL)
+                val connection = url.openConnection() as java.net.HttpURLConnection
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+                connection.requestMethod = "GET"
                 
+                val responseCode = connection.responseCode
+                if (responseCode != 200) {
+                    Dispatchers.Main.run {
+                        android.widget.Toast.makeText(requireContext(), "Ошибка сети: код $responseCode", android.widget.Toast.LENGTH_LONG).show()
+                    }
+                    return@launch
+                }
+                
+                val response = connection.inputStream.bufferedReader().use { it.readText() }
                 val json = JSONObject(response)
+                
+                if (!json.has("updates")) {
+                    Dispatchers.Main.run {
+                        android.widget.Toast.makeText(requireContext(), "Неверный формат JSON", android.widget.Toast.LENGTH_LONG).show()
+                    }
+                    return@launch
+                }
+                
                 val updates = json.getJSONObject("updates")
-                val description = updates.getJSONObject("description")
-                val descText = description.getString("Bobomb Services")
+                val description = updates.optJSONObject("description")
                 val directUrl = updates.optString("directUrl", "")
+                
+                val descText = if (description != null) {
+                    val keys = description.keys()
+                    if (keys.hasNext()) description.getString(keys.next()) else "Обновление сервисов доступно"
+                } else "Обновление сервисов доступно"
                 
                 Dispatchers.Main.run {
                     showUpdateNotification("Сервисы", descText, directUrl)
