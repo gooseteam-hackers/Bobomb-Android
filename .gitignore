@@ -30,6 +30,9 @@ proguard/
 # Log Files
 *.log
 
+# Static update files (stored in separate repository)
+static/
+
 # Android Studio Navigation editor temp files
 .navigation/
 
