@@ -119,7 +119,6 @@ class MainViewModel(
         collectAll()
 
         loadAdvertising()
-        loadCloudStatic()
     }
 
     fun getAdvertisingCounter(): LiveData<Int> {
@@ -182,28 +181,7 @@ class MainViewModel(
         snowfallEnabled.value = enabled
     }
 
-    private fun loadCloudStatic() {
-        val request: Request = Request.Builder()
-            .url(BuildVars.DATA_SOURCE)
-            .get()
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            private val gson = Gson()
-
-            override fun onResponse(call: Call, response: Response) {
-                runCatching {
-                    val cloudStatic = gson.fromJson(response.body?.string(), CloudStatic::class.java)
-                }.onFailure {
-                    it.printStackTrace()
-                }
-            }
-        })
-    }
+    // Update check moved to AboutDialog
 
     private fun loadAdvertising() {
 
