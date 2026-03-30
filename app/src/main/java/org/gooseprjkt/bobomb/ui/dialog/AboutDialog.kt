@@ -50,15 +50,9 @@ class AboutDialog : BottomSheetDialogFragment() {
             startActivity(intent)
         }
 
-        // Кнопка проверки обновления приложения
-        binding.checkAppUpdate.setOnClickListener {
-            checkAppUpdate()
-        }
-
-        // Кнопка обновления сервисов
-        binding.checkServicesUpdate.setOnClickListener {
-            checkServicesUpdate()
-        }
+        // Кнопки обновлений (скрыты до следующей версии)
+        // binding.checkAppUpdate.setOnClickListener { checkAppUpdate() }
+        // binding.checkServicesUpdate.setOnClickListener { checkServicesUpdate() }
 
         // Кнопка закрытия
         binding.closeButton.setOnClickListener {

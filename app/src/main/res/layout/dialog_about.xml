@@ -151,10 +151,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Закрыть"
-            android:minWidth="120dp"
-            android:layout_marginBottom="16dp"/>
+            android:minWidth="120dp"/>
 
-        <!-- Кнопки обновлений -->
+        <!-- Кнопки обновлений (скрыты до следующей версии)
         <com.google.android.material.button.MaterialButton
             android:id="@+id/check_app_update"
             style="@style/Widget.Material3.Button.OutlinedButton"
@@ -173,6 +172,7 @@
             android:text="Обновить сервисы"
             app:icon="@drawable/ic_baseline_update_24"
             app:iconGravity="textStart"/>
+        -->
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
